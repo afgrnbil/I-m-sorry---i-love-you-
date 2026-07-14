@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Special For You Candy Pink Edition 🌸</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-gradient: linear-gradient(135deg, #fff0f3 0%, #ffdeeb 100%);
+            --card-pink: #ffffff;
+            --accent-pink: #ff7597;
+            --deep-pink: #e05375;
+            --soft-pink: #ffb3c6;
+            --text-dark: #5c3d47;
+            --text-muted: #a3858f;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Quicksand', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        h1, h2, h3, .key, .track-num, .btn-action {
+            font-family: 'Fredoka One', cursive;
+        }
+
+        body {
+            background-color: #ffdeeb;
+            color: var(--text-dark);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .bubble {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 50%;
+            bottom: -50px;
+            animation: floatUp 8s infinite ease-in;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0) scale(1); opacity: 0.8; }
+            100% { transform: translateY(-110vh) scale(1.2); opacity: 0; }
+        }
+
+        .phone-container {
+            width: 100vw;
+            height: 100vh;
+            max-width: 412px;
+            max-height: 892px;
+            background: var(--bg-gradient);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(224, 83, 117, 0.15);
+            z-index: 1;
+        }
+
+        @media (min-width: 450px) {
+            .phone-container {
+                border: 10px solid #fff;
+                border-radius: 40px;
+                height: 85vh;
+                box-shadow: 0 25px 50px rgba(224, 83, 117, 0.25);
+            }
+        }
+
+        .screen {
+            display: none;
+            width: 100%;
+            height: 100%;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 30px;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .screen.active {
+            display: flex;
+            animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        @keyframes popIn {
+            from { opacity: 0; transform: scale(0.9) translateY(20px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        /* --- SCREEN 1: PASSCODE --- */
+        .passcode-title {
+            font-size: 20px;
+            color: var(--deep-pink);
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .dots-container {
+            display: flex;
+            gap: 18px;
+            margin-bottom: 50px;
+        }
+
+        .dot {
+            width: 22px;
+            height: 22px;
+            border: 2px solid var(--soft-pink);
+            background: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .dot.filled {
+            border-color: var(--accent-pink);
+            background: var(--accent-pink);
+            transform: scale(1.1);
+        }
+
+        .dot.filled::after {
+            content: "🌸";
+            font-size: 11px;
+        }
+
+        .keypad {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            width: 85%;
+            max-width: 280px;
+        }
+
+        .key {
+            background: #ffffff;
+            border: none;
+            border-radius: 50%;
+            aspect-ratio: 1;
+            font-size: 22px;
+            color: var(--deep-pink);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 10px rgba(255, 117, 151, 0.15);
+            transition: all 0.1s ease;
+        }
+
+        .key:active {
+            background: var(--accent-pink);
+            color: white;
+            transform: scale(0.9);
+        }
+
+        /* --- SCREEN 2: SUCCESS POPUP --- */
+        .popup-box {
+            background: var(--card-pink);
+            border-radius: 30px;
+            padding: 40px 25px;
+            width: 85%;
+            text-align: center;
+            box-shadow: 0 15px 35px rgba(255, 117, 151, 0.2);
+            border: 2px solid #fff;
+        }
+
+        .btn-action {
+            background: linear-gradient(135deg, var(--accent-pink), var(--deep-pink));
+            color: white;
+            border: none;
+            padding: 14px 30px;
+            border-radius: 25px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 20px;
+            width: 100%;
+            box-shadow: 0 5px 15px rgba(220, 80, 110, 0.3);
+        }
+
+        /* --- SCREEN 3: ENVELOPE OPEN --- */
+        .envelope-wrapper {
+            position: relative;
+            cursor: pointer;
+            width: 190px;
+            height: 125px;
+            background: #ffb3c6;
+            border-bottom-left-radius: 12px;
+            border-bottom-right-radius: 12px;
+            box-shadow: 0 15px 30px rgba(255, 117, 151, 0.25);
+            margin-top: 70px;
+        }
+
+        .envelope-wrapper::before {
+            content: "";
+            position: absolute;
+            top: -62px;
+            left: 0;
+            border-left: 95px solid transparent;
+            border-right: 95px solid transparent;
+            border-bottom: 62px solid #ffb3c6;
+            transition: transform 0.4s ease;
+            transform-origin: bottom;
+            z-index: 3;
+        }
+
+        .envelope-wrapper.open::before {
+            transform: rotateX(180deg) translateY(62px);
+            z-index: 1;
+        }
+
+        .seal-button {
+            position: absolute;
+            top: -15px;
+            left: 80px;
+            width: 32px;
+            height: 32px;
+            background: var(--deep-pink);
+            border-radius: 50%;
+            z-index: 4;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.12); }
+            100% { transform: scale(1); }
+        }
+
+        /* --- SCREEN 4: MAIN MENU --- */
+        .menu-title {
+            font-size: 26px;
+            color: var(--deep-pink);
+            text-align: center;
+        }
+
+        .choices-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            width: 100%;
+            margin-top: 40px;
+        }
+
+        .choice-card {
+            background: white;
+            border: 2px dashed var(--soft-pink);
+            border-radius: 20px;
+            height: 115px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 8px 16px rgba(255, 117, 151, 0.05);
+            transition: all 0.2s ease;
+        }
+
+        .choice-card:active {
+            border-style: solid;
+            border-color: var(--accent-pink);
+            background: #fff0f3;
+            transform: scale(0.92);
+        }
+
+        .choice-card .icon {
+            font-size: 32px;
+            margin-bottom: 5px;
+        }
+
+        .choice-card .label {
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        /* --- CONTENT VIEWS --- */
+        .content-header {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .btn-back {
+            background: #fff;
+            border: 1px solid var(--soft-pink);
+            color: var(--deep-pink);
+            font-size: 13px;
+            font-weight: 700;
+            padding: 6px 14px;
+            border-radius: 15px;
+            cursor: pointer;
+        }
+
+        .letter-box {
+            background: #fff;
+            color: var(--text-dark);
+            padding: 25px;
+            border-radius: 24px;
+            width: 100%;
+            height: 75%;
+            box-shadow: 0 10px 30px rgba(255, 117, 151, 0.1);
+            font-size: 15px;
+            line-height: 1.6;
+            overflow-y: auto;
+            white-space: pre-line;
+        }
+
+        /* --- MEMORI (POLAROID STACK) --- */
+        .gallery-container {
+            width: 100%;
+            height: 68%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .photo-item {
+            position: absolute;
+            background: white;
+            border: 8px solid white;
+            border-bottom: 45px solid white;
+            border-radius: 8px;
+            width: 220px;
+            height: 260px;
+            box-shadow: 0 12px 25px rgba(255, 117, 151, 0.2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            color: var(--text-muted);
+            font-size: 13px;
+            cursor: pointer;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s;
+            background-size: cover;
+            background-position: center;
+        }
+
+        /* Dekorasi Selotip Lucu di atas Polaroid */
+        .photo-item::before {
+            content: "";
+            position: absolute;
+            top: -12px;
+            width: 60px;
+            height: 18px;
+            background: rgba(255, 179, 198, 0.5);
+            transform: rotate(-2deg);
+            backdrop-filter: blur(1px);
+        }
+
+        /* Keterangan Teks Bergaya Tulis Tangan di Bawah Polaroid */
+        .photo-caption {
+            position: absolute;
+            bottom: -32px;
+            font-weight: 700;
+            font-size: 12px;
+            color: var(--deep-pink);
+            text-align: center;
+            width: 90%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .gallery-hint {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 15px;
+            text-align: center;
+        }
+
+        /* --- MUSIC --- */
+        .playlist {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            height: 75%;
+            overflow-y: auto;
+        }
+
+        .track {
+            display: flex;
+            align-items: center;
+            background: white;
+            padding: 15px;
+            border-radius: 20px;
+            box-shadow: 0 6px 15px rgba(255, 117, 151, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            cursor: pointer;
+        }
+
+        .track-num {
+            font-size: 16px;
+            color: var(--accent-pink);
+            margin-right: 15px;
+        }
+
+        .track-info {
+            flex-grow: 1;
+        }
+
+        .track-title {
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .track-artist {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+    </style>
+</head>
+<body>
+
+    <audio id="myAudio" loop></audio>
+
+    <div id="bubbles-bg"></div>
+
+    <div class="phone-container">
+        
+        <div id="scr-passcode" class="screen active">
+            <h2 class="passcode-title">Ketik Password Dulu Ya Kaa! 🥰</h2>
+            <div class="dots-container">
+                <div class="dot" id="dot-0"></div>
+                <div class="dot" id="dot-1"></div>
+                <div class="dot" id="dot-2"></div>
+                <div class="dot" id="dot-3"></div>
+            </div>
+            <div class="keypad">
+                <button class="key" onclick="press('1')">1</button>
+                <button class="key" onclick="press('2')">2</button>
+                <button class="key" onclick="press('3')">3</button>
+                <button class="key" onclick="press('4')">4</button>
+                <button class="key" onclick="press('5')">5</button>
+                <button class="key" onclick="press('6')">6</button>
+                <button class="key" onclick="press('7')">7</button>
+                <button class="key" onclick="press('8')">8</button>
+                <button class="key" onclick="press('9')">9</button>
+                <button class="key" onclick="press('*')">🌸</button>
+                <button class="key" onclick="press('0')">0</button>
+                <button class="key" onclick="press('#')">✨</button>
+            </div>
+        </div>
+
+        <div id="scr-success" class="screen">
+            <div class="popup-box">
+                <div style="font-size: 60px; margin-bottom: 10px;">🐈✨</div>
+                <h3 style="color: var(--deep-pink); font-size: 18px; margin-bottom: 10px;">Yeeay! Kunci Terbuka!</h3>
+                <p style="font-size: 13px; color: var(--text-muted);">Kamu berhasil masuk 🥳</p>
+                <button class="btn-action" onclick="goTo('scr-envelope')">Intip Kejutan! 💖</button>
+            </div>
+        </div>
+
+        <div id="scr-envelope" class="screen">
+            <div style="font-size: 50px; margin-bottom: 20px;">💌</div>
+            <p style="margin-bottom: 35px; color: var(--deep-pink); font-size: 14px; font-weight: 700; text-align: center">Ketuk stempel hati untuk buka menu kejutan!</p>
+            <div class="envelope-wrapper" id="envelope" onclick="openEnvelope()">
+                <div class="seal-button">❤️</div>
+            </div>
+        </div>
+
+        <div id="scr-menu" class="screen">
+            <div style="font-size: 45px; margin-bottom: 10px;">🧸🍭</div>
+            <h2 class="menu-title">Spesial</h2>
+            <h2 class="menu-title" style="font-weight: 500; margin-bottom: 5px;">Hanya Untukmu!</h2>
+            <p style="color: var(--text-muted); font-size: 13px;">Buka berurutan yaa~</p>
+            
+            <div class="choices-container">
+                <div class="choice-card" onclick="goTo('scr-music')">
+                    <div class="icon">🎧</div>
+                    <div class="label">1. Lagu</div>
+                </div>
+                <div class="choice-card" onclick="goTo('scr-memory')">
+                    <div class="icon">📸</div>
+                    <div class="label">2. Memori</div>
+                </div>
+                <div class="choice-card" onclick="goTo('scr-letter')">
+                    <div class="icon">✉️</div>
+                    <div class="label">3. Pesan</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="scr-music" class="screen">
+            <div class="content-header">
+                <span style="font-size: 16px; font-weight: 700; color: var(--deep-pink);">1. Playlist Favorit 🎵</span>
+                <button class="btn-back" onclick="goTo('scr-menu')">Kembali</button>
+            </div>
+            <div class="playlist">
+                <div class="track" onclick="playMusic('Shape Of My Heart.mp3', this)">
+                    <div class="track-num">01</div>
+                    <div class="track-info">
+                        <div class="track-title">Shape Of My Heart</div>
+                        <div class="track-artist">Backstreet Boys</div>
+                    </div>
+                    <div class="status-icon">🎵</div>
+                </div>
+                <div class="track" onclick="playMusic('Sang Ratu - By Nuca.mp3', this)">
+                    <div class="track-num">02</div>
+                    <div class="track-info">
+                        <div class="track-title">Sang Ratu</div>
+                        <div class="track-artist">Nuca</div>
+                    </div>
+                    <div class="status-icon">🎵</div>
+                </div>
+                <div class="track" onclick="playMusic('Kota Ini Tak Sama Tanpamu.mp3', this)">
+                    <div class="track-num">03</div>
+                    <div class="track-info">
+                        <div class="track-title">Kota Ini Tak Sama Tanpamu</div>
+                        <div class="track-artist">Nadhif Basalamah</div>
+                    </div>
+                    <div class="status-icon">🎵</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="scr-memory" class="screen">
+            <div class="content-header">
+                <span style="font-size: 16px; font-weight: 700; color: var(--deep-pink);">2. Momen Kenangan 💐</span>
+                <button class="btn-back" onclick="goTo('scr-menu')">Kembali</button>
+            </div>
+            
+            <div class="gallery-container" onclick="rotateCard()">
+                <div class="photo-item" id="card5" style="transform: rotate(4deg); z-index: 1; background-image: url('Foto 1.jpg');">
+                    <div class="photo-caption">Fotbar paling bagus! ✨</div>
+                </div>
+                <div class="photo-item" id="card4" style="transform: rotate(-3deg); z-index: 2; background-image: url('Foto 4.jpg');">
+                    <div class="photo-caption">Bocil Imut 🎈</div>
+                </div>
+                <div class="photo-item" id="card3" style="transform: rotate(4deg); z-index: 3; background-image: url('Foto 3.jpg');">
+                    <div class="photo-caption">Cantik banget bocilkuh! ✨</div>
+                </div>
+                <div class="photo-item" id="card2" style="transform: rotate(-3deg); z-index: 4; background-image: url('Foto 2.jpg');">
+                    <div class="photo-caption">Senyum terus yah 🎈</div>
+                </div>
+                <div class="photo-item" id="card1" style="transform: rotate(2deg); z-index: 5; background-image: url('Foto 5.jpg');">
+                    <div class="photo-caption">Awal Mula Cerita Kita 🤍</div>
+                </div>
+            </div>
+            <p class="gallery-hint">👉 Ketuk kartu foto untuk melihat foto selanjutnya!</p>
+        </div>
+
+        <div id="scr-letter" class="screen">
+            <div class="content-header">
+                <span style="font-size: 16px; font-weight: 700; color: var(--deep-pink);">3. Surat Spesial Untukmu 📜</span>
+                <button class="btn-back" onclick="goTo('scr-menu')">Kembali</button>
+            </div>
+            <div class="letter-box">
+                Hai orang ter-favorit! 🌸
+
+                Mungkin ini cuma coretan sederhana di layar HP, tapi isinya bener-bener tulus dari hati yang paling dalam.
+                
+                Bocyiiiiiiilllll cayaaaaang, maafka nah sayangkuh atas perkataan ku kemarin, jujur ovt ka karena kulihat typing ta' kayak berubah ki😔. Takutka nanti gara² perkataan ku nah ada perasaan sedih ta' yang di pendam, yang bisa bikin Ki pelan² mati rasa sama saya☹️. Kalau ada apa² bilang nah bocilll. Gak mau jka sampai asingki, mauka sama kita' terus sampaiiii tuaaa☹️💖
+
+Jangan mki ubah-ubah diri ta' okeiii, kembali mki kayak yang kemarin kemarin, ngerasa ka kayak beda typing ta', mauka bocilkuh yang dulu, yanggg cerewet, yang suka yapping, yang sukaaa oba oba🥹, oba oba yang ku maksud ini kayaaaakkk lucyuuuu ki, imyuuutttt, mauka bocyiiilll kuh yang dulu nahhh, jangan mki ubah-ubah sesuatu🥹💖. Capek mki mengerti orang lain, haruski punya tempat yang bisa mengerti ki dan mauka jadi tempat yang paling mengertiki🤗😇💖.
+
+Kalau ada apa-apa cerita okeiii, tapi kayaknya nanti gak bisa deh karena break ki, tapi kalau butuh bangetki teman cerita, langsung telfon mka okeiii, fast respon terus jka buat kita'🤗💖
+
+Sekali lagi bocyiiilll jangan mki ubah-ubah diri ta' okeiii - i love you💖💖
+
+Maafka bocyiiilll - i love you so much💖💖
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        const CORRECT_PIN = "1802"; 
+        let pinInput = "";
+        
+        // Logika untuk tumpukan foto polaroid (Mendukung dinamis semua kartu)
+        let currentCardIndex = 1;
+        const totalCards = 5;
+
+        function rotateCard() {
+            const currentCard = document.getElementById(`card${currentCardIndex}`);
+            if (!currentCard) return;
+
+            // Animasi membuang kartu teratas ke kanan
+            currentCard.style.transform = 'translateX(250px) rotate(20deg)';
+            currentCard.style.opacity = '0';
+            
+            const movedCard = currentCard;
+            
+            // Pindahkan kartu teratas tadi ke tumpukan paling bawah
+            setTimeout(() => {
+                movedCard.style.zIndex = '1';
+                movedCard.style.transform = `rotate(${Math.floor(Math.random() * 8) - 4}deg)`; 
+                movedCard.style.opacity = '1';
+            }, 300);
+
+            // Naikkan z-index kartu lainnya agar bergeser ke atas
+            for (let i = 1; i <= totalCards; i++) {
+                if (i !== currentCardIndex) {
+                    const otherCard = document.getElementById(`card${i}`);
+                    if (otherCard) {
+                        let currentZ = parseInt(otherCard.style.zIndex) || 1;
+                        otherCard.style.zIndex = currentZ + 1;
+                    }
+                }
+            }
+
+            // Ganti target ke kartu berikutnya
+            currentCardIndex++;
+            if (currentCardIndex > totalCards) {
+                currentCardIndex = 1;
+            }
+        }
+
+        function createBubbles() {
+            const container = document.getElementById('bubbles-bg');
+            for (let i = 0; i < 12; i++) {
+                const bubble = document.createElement('div');
+                bubble.classList.add('bubble');
+                const size = Math.random() * 40 + 20;
+                bubble.style.width = `${size}px`;
+                bubble.style.height = `${size}px`;
+                bubble.style.left = `${Math.random() * 100}vw`;
+                bubble.style.animationDelay = `${Math.random() * 5}s`;
+                bubble.style.animationDuration = `${Math.random() * 5 + 6}s`;
+                container.appendChild(bubble);
+            }
+        }
+        createBubbles();
+
+        function press(key) {
+            if (pinInput.length < 4 && !isNaN(key)) {
+                pinInput += key;
+                updateDots();
+                if (pinInput.length === 4) {
+                    setTimeout(verifyPin, 300);
+                }
+            } else if (key === '*' || key === '#') {
+                pinInput = "";
+                updateDots();
+            }
+        }
+
+        function updateDots() {
+            for (let i = 0; i < 4; i++) {
+                const dot = document.getElementById(`dot-${i}`);
+                if (i < pinInput.length) {
+                    dot.classList.add('filled');
+                } else {
+                    dot.classList.remove('filled');
+                }
+            }
+        }
+
+        function verifyPin() {
+            if (pinInput === CORRECT_PIN) {
+                goTo('scr-success');
+            } else {
+                alert("Password Salah, Coba Lagi Kaa! 🤭");
+                pinInput = "";
+                updateDots();
+            }
+        }
+
+        function openEnvelope() {
+            const env = document.getElementById('envelope');
+            env.classList.add('open');
+            setTimeout(() => {
+                goTo('scr-menu');
+                env.classList.remove('open');
+            }, 750);
+        }
+
+        function goTo(screenId) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(screenId).classList.add('active');
+        }
+
+        // Fungsi Pemutar Musik
+        let currentTrack = null;
+        function playMusic(audioSrc, element) {
+            const audio = document.getElementById('myAudio');
+            
+            document.querySelectorAll('.status-icon').forEach(icon => icon.innerText = '🎵');
+
+            if (currentTrack === audioSrc) {
+                if (!audio.paused) {
+                    audio.pause();
+                    element.querySelector('.status-icon').innerText = '📁';
+                } else {
+                    audio.play();
+                    element.querySelector('.status-icon').innerText = '🔊';
+                }
+            } else {
+                audio.src = audioSrc;
+                audio.play().catch(e => console.log("Izin browser diperlukan untuk memutar musik."));
+                element.querySelector('.status-icon').innerText = '🔊';
+                currentTrack = audioSrc;
+            }
+        }
+    </script>
+</body>
+</html>
